@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- INTRO START -->
+        <section data-auto-animate>
+          <h2>Frontend Performance</h2>
+          <aside class="notes">
+            <p>Self intro</p>
+            <p>On to the topic at hand. Frontend performance…</p>
+          </aside>
+        </section>
+        <section data-auto-animate>
+          <h2 style="text-decoration: line-through; color: red">
+            Frontend Performance
+          </h2>
+
+          <aside class="notes">
+            <p>
+              Well… sort of… To be honest I wanted to talk about frontend
+              performance, but it is such a vast topic that I didn't know where
+              to start (or end).
+            </p>
+            <p>
+              What is this session about then? Before that, let's start with the
+              following HTML:
+            </p>
+          </aside>
+        </section>
+        <section>
+          <!-- Sample HTML -->
+          <pre>
+            <code class="language-html" data-trim data-noescape data-line-numbers="1-15|10|11|12|6">
+              <script type="text/template">
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="UTF-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    <link rel="stylesheet" href="./style.css" />
+                    <title>Journey to the centre of the screen</title>
+                  </head>
+                  <body>
+                    <h1>A journey to the centre of the screen</h1>
+                    <p>Hello <span>open-source</span> Bridgies!</p>
+                    <img src="./centering-is-easy.png">
+                  </body>
+                </html>
+              </script>
+            </code>
+          </pre>
+
+          <aside class="notes">
+            <p>
+              Its a simple HTML. We have an h1 element, a paragraph element and
+              an image element. And then we have the external CSS.
+            </p>
+          </aside>
+        </section>
+        <section>
+          <!-- Sample CSS -->
+          <pre>
+            <code class="css" data-trim data-noescape data-line-numbers="1-25|1-7|9-13|15-17|19-21|23-25">
+              <script type="text/template">
+                body {
+                  display: grid;
+                  place-content: center;
+                  height: 100vh;
+                  margin: 0;
+                  text-align: center;
+                }
+                
+                h1 {
+                  text-transform: uppercase;
+                  color: maroon;
+                  font-family: sans-serif;
+                }
+                
+                p {
+                  font-weight: bold;
+                }
+                
+                span {
+                  color: red;
+                }
+                
+                p span {
+                  display: none;
+                }
+                
+              </script>
+            </code>
+          </pre>
+
+          <aside class="notes">
+            <p>
+              The css has the body tag as a grid with its items at the center.
+              We have an uppercase styling and a maroon color for h1. The
+              paragraphs tag has font-bold, span with red color and span within
+              paragraphs are hidden.
+            </p>
+            <p>
+              Looking at this, we have a rough idea of what the page would look
+              like right? In fact it would look something like...
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <img src="./dist/images/rendered-page.png" alt="" />
+
+          <aside class="notes">
+            <p>this...</p>
+            <!-- <p>
+              Since this is a very small HTML we know that the page would load
+              pretty fast. But, scale this up a few thousand lines of HTML, CSS
+              and js. Can you tell off-hand how fast the blog page would render
+              or debug where the bottle-neck would be? Is there too much unused
+              CSS? Too much JS? Or even too much HTML??? How do we even begin
+              with this?
+            </p> -->
+
+            <p>
+              Since this is a very small HTML we know how this will look like
+              intuitively. But how does the browser know? How does the browser
+              get random bytes from the internet and convert those to beautiful
+              web pages?
+            </p>
+
+            <p>So that's what we're gonna talk about today.</p>
+          </aside>
+        </section>
+
+        <!-- <section data-auto-animate>
+          <h2>Critical Rendering Path Optimization</h2>
+          <aside class="notes">
+            <p>
+              the Critical Rendering Path - anyone heard about this? Yes, no?
+            </p>
+            <p>
+              Critical Rendering Path is just the steps the browser goes through
+              to convert the HTML, CSS, and JavaScript into pixels on the
+              screen. Optimizing these steps improves render performance. Sounds
+              interesting?
+            </p>
+          </aside>
+        </section>
+
+        <section data-auto-animate>
+          <h2 style="text-decoration: line-through; color: red">
+            Critical Rendering Path
+          </h2>
+          <p class="fragment">🧔🏻</p>
+          <aside class="notes">
+            <p>
+              Yea, so our topic today is not Critical Rendering Path either…
+              because some of us will grow long beards by the time I am done
+              with that session.
+            </p>
+            <p>
+              Jokes aside, the truth is, before we can really optimize the
+              critical rendering path we need to understand something much more
+              fundamental. Lets go back to our HTML:
+            </p>
+          </aside>
+        </section>
+        <section>
+
+          <aside class="notes">
+            <p>
+              As I said before, this is a simple HTML and we know how this will
+              look like intuitively. But how does the browser know? How does the
+              browser get random bytes from the internet and convert those to
+              beautiful web pages?
+            </p>
+            <p>So today, we're gonna talk about that...</p>
+          </aside>
+        </section> -->
+
+        <section data-auto-animate>
+          <h2>“From Bytes to Pixels”</h2>
+          <p>The Browser Magic</p>
+
+          <aside class="notes">
+            <p>How the browser renders a page.</p>
+            <p>This is the actual topic... I swear...!</p>
+          </aside>
+        </section>
+
+        <section data-auto-animate>
+          <div style="opacity: 0.5">
+            <h2>“From Bytes to Pixels”</h2>
+            <p>The Browser Magic</p>
+          </div>
+
+          <ul>
+            <li>Document Object Model (DOM)</li>
+            <li class="fragment">CSS Object Model (CSSOM)</li>
+            <li class="fragment">Render Tree</li>
+          </ul>
+
+          <aside class="notes">
+            <p>
+              We're gonna talk about how the browser converts these bytes to
+              DOM, CSSOM and render trees n all that. And along the way, we'll
+              touch on performance a bit.
+            </p>
+            <p>
+              So, those are here for the front-end performance, don't be mad...
+              there's some performance bits here. But not so much...
+            </p>
+            <p>
+              So... How does a browser render a page? Lets go back again to our
+              HTML
+            </p>
+          </aside>
+        </section>
+        <!-- INTRO END -->
+
+        <!-- DOM START -->
+        <section>
+          <!-- Sample HTML -->
+          <pre>
+            <code class="language-html" data-trim>
+              <script type="text/template">
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="UTF-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    <link rel="stylesheet" href="./style.css" />
+                    <title>Journey to the centre of the screen</title>
+                  </head>
+                  <body>
+                    <h1>A journey to the centre of the screen</h1>
+                    <p>Hello <span>open-source</span> Bridgies!</p>
+                    <img src="./centering-is-easy.png">
+                  </body>
+                </html>
+              </script>
+            </code>
+          </pre>
+
+          <aside class="notes">
+            <p>How does the browser process this page?</p>
+            <p>The browser actually does this step by step.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Step 1: Bytes to characters</h2>
+          <img
+            style="object-fit: cover"
+            width="900"
+            height="200"
+            src="./dist/images/dom/step1.png"
+            alt=""
+          />
+          <aside class="notes">
+            <p>
+              Step 1 -> it first reads the raw bytes from the network (or from
+              disk) and translates them to individual characters.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Step 2: Characters to tokens</h2>
+          <div class="r-stack">
+            <img src="./dist/images/dom/step2.png" alt="" />
+            <div class="fragment">
+              <p>Web Hypertext Application Technology Working Group</p>
+              <img width="950" src="./dist/images/dom/html-spec.png" alt="" />
+            </div>
+          </div>
+          <aside class="notes">
+            <p>
+              Step 2 -> The browser then converts these strings of characters
+              into distinct tokens. Browser does it using the HTML5 standard
+              maintained by Web Hypertext Application Technology Working Group
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Step 3: Lexing</h2>
+          <img src="./dist/images/dom/step3.png" alt="" />
+          <aside class="notes">
+            <p>
+              Step 3 -> Each of these tokens are then converted to objects with
+              their unique properties and rules.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Step 4: DOM construction</h2>
+          <img src="./dist/images/dom/step4.png" alt="" />
+          <aside class="notes">
+            <p>
+              Step 4 -> And finally, these objects are linked together in a tree
+              data structure to form the DOM or Document Object Model.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <img src="./dist/images/dom/all-steps.png" alt="" />
+          <p>Web Hypertext Application Technology Working</p>
+          <img width="950" src="./dist/images/dom/html-spec.png" alt="" />
+          <aside class="notes">
+            <p>
+              This is the entire DOM construction process. The browser uses this
+              for all further processing of the page.
+            </p>
+            <p>
+              Every time the browser processes HTML markup, it goes through all
+              of the steps above: convert bytes to characters, identify tokens,
+              convert tokens to nodes, and build the DOM tree.
+            </p>
+            <p>You can actually measure this</p>
+          </aside>
+        </section>
+        <section>
+          <img width="800" src="./dist/images/dom/parse-timing.png" alt="" />
+
+          <aside class="notes">
+            <p>
+              In Chrome DevTools, you can see the actual time taken to perform
+              this step, usually shown as Parse HTML - in the example above, it
+              took us ~1ms to convert a chunk of HTML into a DOM tree.
+            </p>
+            <p>Modern browsers are pretty fast at this now.</p>
+            <p>
+              For a larger page however, this parsing alone could take
+              significantly longer especially on mobile devices. Wanna see what
+              that looks like?
+            </p>
+          </aside>
+        </section>
+        <section>
+          <img
+            width="800"
+            src="./dist/images/dom/html-spec-timing.png"
+            alt=""
+          />
+
+          <aside class="notes">
+            <p>
+              This is what it looks like on a large HTML page with around
+              ~3,00,000 elements. I did simulate the mobile experience with some
+              throttling but it's not far off from the actual website experience
+              on my phone.
+            </p>
+            <p>
+              As you can see even on a modern browser it takes a full 2.3
+              seconds just to Parse HTML. That's just one step. The browser has
+              to do a lot more before it can show anything on screen.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="r-stack">
+            <blockquote
+              cite="https://developer.chrome.com/en/docs/lighthouse/performance/dom-size#how-the-lighthouse-dom-size-audit-fails"
+            >
+              According to Lighthouse, a page's DOM size is excessive when it
+              exceeds 1,500 nodes. Lighthouse will begin to throw warnings when
+              a page's DOM exceeds 800 nodes.
+            </blockquote>
+            <img
+              width="950"
+              class="fragment"
+              src="./dist/images/dom/wiki-dom-size.png"
+              alt=""
+            />
+          </div>
+          <aside class="notes">
+            <p>
+              Now... how many is too many DOM elements? According to lighthouse,
+              it's around 1500 nodes. But don't take this number as a goal... if
+              it's 1501 elements your HTML won't magically be slower. It's just
+              a rough guideline number.
+            </p>
+            <p>
+              For example the average wikipedia is ~5000 elements. But you don't
+              see that being extremely slow.
+            </p>
+          </aside>
+        </section>
+
+        <section data-auto-animate>
+          <h2>DOM Depth</h2>
+
+          <!-- DOM DEPTH EXAMPLE -->
+          <pre data-id="code-animation">
+            <code class="language-html" data-trim>
+              <script type="text/template">
+                <div>
+                  <div>
+                    <div>
+                      <div>
+                        <!-- Contents -->
+                      </div>
+                    </div>
+                  </div>
+                </div>                
+              </script>
+            </code>
+          </pre>
+          <aside class="notes">
+            <p>
+              There's also the DOM depth. When you see patterns like this, you
+              can probably simplify them by flattening your DOM structure...
+            </p>
+          </aside>
+        </section>
+        <section data-auto-animate>
+          <h2>DOM Depth</h2>
+
+          <!-- DOM DEPTH EXAMPLE -->
+          <pre data-id="code-animation">
+              <code class="language-html" data-trim>
+                <script type="text/template">
+                  <div>
+                    <!-- Contents -->
+                  </div>                
+                </script>
+              </code>
+            </pre>
+
+          <aside class="notes">
+            <p>To something like this...</p>
+          </aside>
+        </section>
+
+        <section>
+          <p>Lighthouse flags pages with DOM trees that:</p>
+          <ul>
+            <li>Have more than 1,500 nodes total.</li>
+            <li>Have a depth greater than 32 nodes.</li>
+            <li>Have a parent node with more than 60 child nodes.</li>
+          </ul>
+          <aside class="notes">
+            <p>The actual lighthouse rules are a bit more complex...</p>
+            <p>
+              Again... these are just recommendations. Don't make these numbers
+              your goal.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="r-stack">
+            <div style="position: relative">
+              <img
+                width="800"
+                src="./dist/images/dom/html-spec-timing.png"
+                alt=""
+              />
+              <p
+                class="fragment"
+                style="
+                  position: absolute;
+                  font-size: 200px;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                "
+              >
+                🚫
+              </p>
+            </div>
+            <img
+              class="fragment"
+              width="800"
+              src="./dist/images/dom/html-spec.png"
+              alt=""
+            />
+            <img
+              class="fragment"
+              width="800"
+              src="./dist/images/dom/all-steps.png"
+              alt=""
+            />
+          </div>
+
+          <aside class="notes">
+            <p>
+              But again... don't go overboard with ~3,00,000 elements that it
+              takes seconds to parse the HTML.
+            </p>
+            <p>
+              By the way... this is not something I made up... this is the
+              timing of a real website. Any guess?
+            </p>
+            <p>
+              Its the HTML Spec page. The entire HTML spec is in a single page.
+              But now, it does offer a multi-page version.
+            </p>
+            <p>
+              Anyway, the browser has executed the different steps and got the
+              DOM. But the DOM still doesn't tell the browser how the element
+              will look when it is rendered. It just has the basic structure.
+              What about the styling? That's the next step. Building the..
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>CSS Object Model (CSSOM)</h2>
+        </section>
+
+        <section>
+          <div class="r-stack">
+            <pre>
+              <code class="language-html" data-trim data-noescape data-line-numbers="6">
+                <script type="text/template">
+                  <!DOCTYPE html>
+                  <html lang="en">
+                    <head>
+                      <meta charset="UTF-8" />
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                      <link rel="stylesheet" href="./style.css" />
+                      <title>Journey to the centre of the screen</title>
+                    </head>
+                    <body>
+                      <h1>A journey to the centre of the screen</h1>
+                      <p>Hello <span>open-source</span> Bridgies!</p>
+                      <img src="./centering-is-easy.png">
+                    </body>
+                  </html>
+                </script>
+              </code>
+            </pre>
+
+            <!-- Sample CSS -->
+            <pre class="fragment">
+              <code class="css" data-trim data-noescape>
+                <script type="text/template">
+                  body {
+                    display: grid;
+                    place-content: center;
+                    height: 100vh;
+                    margin: 0;
+                    text-align: center;
+                  }
+                  
+                  h1 {
+                    text-transform: uppercase;
+                    color: maroon;
+                    font-family: sans-serif;
+                  }
+                  
+                  p {
+                    font-weight: bold;
+                  }
+                  
+                  span {
+                    color: red;
+                  }
+                  
+                  p span {
+                    display: none;
+                  }
+                  
+                </script>
+              </code>
+            </pre>
+
+            <aside class="notes">
+              <p>
+                While the browser was constructing the DOM of our simple page,
+                it saw the link tag in the head section of the document pointing
+                to an external CSS stylesheet: style.css. It immediately sends a
+                request for this stylesheet and got back...
+              </p>
+              <p>the css.</p>
+            </aside>
+          </div>
+        </section>
+        <section>
+          <div class="r-stack">
+            <img width="950" src="./dist/images/cssom/bytes-cssom.png" alt="" />
+            <img
+              width="950"
+              class="fragment"
+              src="./dist/images/cssom/cssom.png"
+              alt=""
+            />
+          </div>
+          <aside class="notes">
+            <p>
+              Once the browser gets the bytes from the network its a similar
+              process as before.
+            </p>
+            <p>
+              CSS bytes are converted into characters, then tokens, then nodes,
+              and finally they are linked into a tree structure aka the CSSOM
+              which looks something like:
+            </p>
+            <p>
+              Note that most of these are just the styles that we defined. Every
+              browser provides a default set of styles also known as "user agent
+              styles"— that's what is applied when we don't provide our own -
+              our styles simply override these defaults.
+            </p>
+          </aside>
+        </section>
+        <section>
+          <img width="900" src="./dist/images/cssom/cssom-timing.png" alt="" />
+          <aside class="notes">
+            <p>
+              If you want to find out how much time CSS processing takes you can
+              record a timeline in DevTools and look for "Recalculate Style''
+              event. However, unlike DOM parsing, the timeline doesn't show a
+              separate "Parse CSS" entry, and instead captures parsing and CSSOM
+              tree construction, plus the calculation of computed styles under
+              this one event.
+            </p>
+            <p>
+              For the HTML spec page the Recalculate-style step takes around 0.8
+              second to process on my desktop machine - which as you can imagine
+              is substantial.
+            </p>
+            <p>
+              So, now we have the DOM and CSSOM. The browser has everything to
+              render the page. Right?
+            </p>
+            <p>
+              Well not exactly. The CSSOM and DOM are two different data
+              structures. One represents the structure of the document and the
+              other represents the styles to be applied to the elements of the
+              document. Before the browser can turn our data to pixels it needs
+              to first combine information from both the DOM and CSSOM. This
+              combined structure is known as...
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Render Tree</h2>
+
+          <aside class="notes">
+            <p>
+              The name might seems a bit scary... but the browser just follows a
+              few simple steps to create this render tree.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <ol>
+            <li>Starting at the root of the DOM tree, traverse each node.</li>
+            <li class="fragment fade-in">
+              For each node, find the appropriate matching CSSOM rules and apply
+              them - if they're to be hidden (like display: none for our span
+              element inside paragraph) omit them.
+            </li>
+            <li class="fragment fade-in">
+              Emit these visible nodes with content
+            </li>
+          </ol>
+          <aside class="notes"></aside>
+        </section>
+        <section>
+          <img
+            src="./dist/images/render-tree/render-tree-construction.png"
+            alt=""
+          />
+          <aside class="notes">
+            <p>This is what that looks like...</p>
+            <p>The render tree will also contain each node's computed styles</p>
+            <p>
+              A computed style is all the styles that applies to the element,
+              even if there is no CSS specified for that element. For example,
+              consider the font size of our paragraph element. Even though the
+              element itself doesn't have a font size value, it inherits styles
+              from parent element, or in this case from browser's initial value
+              for that property.
+            </p>
+            <p>
+              Now, this is a simplified explanation... in reality there's a lot
+              more happening under the hood.
+            </p>
+          </aside>
+        </section>
+        <section>
+          <img src="./dist/images/render-tree/render-tree.png" alt="" />
+          <aside class="notes">
+            <p>Anyway... that how we have our Render tree.</p>
+            <p>
+              And now the browser has all the information it needs to start
+              rendering pixels on screen.
+            </p>
+            <p>
+              Well, how does it do that? Well, until now the browser has
+              calculated which nodes should be visible and their computed
+              styles. It still doesn't know the exact size and position of each
+              node in the current page.
+            </p>
+            <p>
+              For example... consider our paragraph element again. The browser
+              knows from computing the styles applied to the element that the
+              font-size is 16px and that it should be bold. But without further
+              calculations, it cannot determine where in the page it should be,
+              who wide would it be (which will depend on the text inside) etc.
+            </p>
+            <p>This is what the browser does next...</p>
+          </aside>
+        </section>
+        <section>
+          <h2>Layout calculation</h2>
+
+          <aside class="notes">
+            <p>
+              How the browser handles layout calculation is not something we
+              need to understand...
+            </p>
+            <p>
+              However, it is good to know when the layout calculation takes too
+              long.
+            </p>
+            <p>Lets take the good old HTML spec page as an example...</p>
+          </aside>
+        </section>
+
+        <section>
+          <div class="r-stack">
+            <img
+              width="750"
+              src="./dist/images/layout-paint/html-spec-lighthouse-warning.png"
+              alt=""
+            />
+            <img
+              width="900"
+              class="fragment"
+              src="./dist/images/dom/html-spec-timing.png"
+              alt=""
+            />
+          </div>
+
+          <aside class="notes">
+            <p>
+              When you check lighthouse for that page it shows us this warning.
+              It says here that too many elements will increase memory usage,
+              expensive style and layout calculations.
+            </p>
+            <p>So... how long does that take?</p>
+            <p>
+              Remember the chrome dev tools timing for this page? Where I showed
+              you that parsing alone takes 2.3 seconds... In the image you can
+              also see the time taken for layout... as you can see it takes 12.6
+              seconds!!!!
+            </p>
+          </aside>
+        </section>
+        <section>
+          <p>Huge number of DOM Nodes <span class="fragment">👎</span></p>
+
+          <aside class="notes">
+            <p>
+              If you found this entire session too complex, simply remember that
+              huge dom size is a no no
+            </p>
+            <p>
+              Anyway, now back to our HTML story. Browser has completed the
+              layout calculations and now what? Well, now it is pretty
+              straightforward;
+            </p>
+          </aside>
+        </section>
+        <section>
+          <div class="r-stack">
+            <h2>Paint</h2>
+            <img
+              width="900"
+              src="./dist/images/dom/html-spec-timing.png"
+              alt=""
+            />
+          </div>
+          <aside class="notes">
+            <p>
+              the browser now "Paints" the render tree to pixels on the screen
+              using the layout calculations made.
+            </p>
+            <p>
+              This “Paint” step is also visible in the devtools and the time
+              taken for this step also varies. Just like the previous layout
+              step painting performance also depends on the size of the DOM and
+              even the type of styles too -> the more complicated the styles,
+              the more time taken for painting. For example, a solid background
+              colour is "cheap" to paint, while a drop shadow is "expensive" to
+              compute and render.
+            </p>
+            <p>So, after all that work is it done? Is the page now visible??</p>
+          </aside>
+        </section>
+        <section>
+          <img src="./dist/images/rendred-page-full.png" alt="" />
+
+          <aside class="notes">
+            <p>Yes it is...</p>
+            <p>Finally, we have our page. Let's do a quick recap.</p>
+          </aside>
+        </section>
+        <section>
+          <h2>Recap</h2>
+          <ul>
+            <li class="fragment">
+              Process HTML markup and build the DOM tree.
+            </li>
+            <li class="fragment">
+              Process CSS markup and build the CSSOM tree.
+            </li>
+            <li class="fragment">
+              Combine the DOM and CSSOM into a render tree.
+            </li>
+            <li class="fragment">
+              Run layout on the render tree to compute geometry of each node.
+            </li>
+            <li class="fragment">Paint the individual nodes to the screen.</li>
+          </ul>
+
+          <aside class="notes">
+            <p>
+              That's it... that's how browsers convert random byte from the
+              network and convert them to pixels.
+            </p>
+            <p>
+              Even for our simple demo page, the browser requires quite a bit of
+              work to render to the screen. And if either the DOM or CSSOM were
+              modified, the browser would have to repeat the entire process in
+              order to figure out which pixels would need to be re-rendered on
+              the screen.
+            </p>
+            <p>
+              As you can imagine, the speed with which we can see our page on
+              the screen is determined by how fast the browser can execute the
+              above steps.
+            </p>
+            <p>
+              Optimizing these steps helps with initial render speed and this
+              path is called the critical rendering path.
+            </p>
+            <p>
+              We did talk about a few things regarding optimization of the above
+              steps. Keep the CSS simple, fewer HTML elements etc. But there is
+              a lot more to critical rendering path optimizations that we just
+              cannot cover in this session. If anyone is interested in a session
+              on this, let me know. 🙂
+            </p>
+          </aside>
+        </section>
+        <section>
+          <h2>Thank You</h2>
+        </section>
+        <section>
+          <h2>Questions?</h2>
+        </section>
+        <section>
+          <a href="">LINK</a>
+        </section>
+        <section>
+          <h2>Credits</h2>
+          <ul>
+            <li>
+              <a
+                style="display: block"
+                href="https://web.dev/articles/critical-rendering-path/constructing-the-object-model"
+              >
+                Constructing the Object Model
+              </a>
+              <p style="font-size: 16px">
+                https://web.dev/articles/critical-rendering-path/constructing-the-object-model
+              </p>
+            </li>
+            <li>
+              <a
+                style="display: block"
+                href="https://web.dev/articles/critical-rendering-path/render-tree-construction"
+              >
+                Render-tree Construction, Layout, and Paint
+              </a>
+              <p style="font-size: 16px">
+                https://web.dev/articles/critical-rendering-path/render-tree-construction
+              </p>
+            </li>
+            <li>
+              <a
+                style="display: block"
+                href="https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work"
+              >
+                How browsers work
+              </a>
+              <p style="font-size: 16px">
+                https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work
+              </p>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        width: 1200,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>

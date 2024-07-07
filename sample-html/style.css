@@ -1,0 +1,25 @@
+body {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+  margin: 0;
+  text-align: center;
+}
+
+h1 {
+  text-transform: uppercase;
+  color: maroon;
+  font-family: sans-serif;
+}
+
+p {
+  font-weight: bold;
+}
+
+span {
+  color: red;
+}
+
+p span {
+  display: none;
+}
