@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <title>reveal.js</title>
+    <title>From Bytes to Pixels</title>
 
     <link rel="stylesheet" href="dist/reset.css" />
     <link rel="stylesheet" href="dist/reveal.css" />
@@ -323,9 +323,8 @@
         </section>
 
         <section>
-          <img src="./dist/images/dom/all-steps.png" alt="" />
+          <img width="950" src="./dist/images/dom/all-steps.png" alt="" />
           <p>Web Hypertext Application Technology Working</p>
-          <img width="950" src="./dist/images/dom/html-spec.png" alt="" />
           <aside class="notes">
             <p>
               This is the entire DOM construction process. The browser uses this
@@ -790,14 +789,12 @@
           </aside>
         </section>
         <section>
-          <div class="r-stack">
-            <h2>Paint</h2>
-            <img
-              width="900"
-              src="./dist/images/dom/html-spec-timing.png"
-              alt=""
-            />
-          </div>
+          <h2>Paint</h2>
+          <img
+            width="900"
+            src="./dist/images/dom/html-spec-timing.png"
+            alt=""
+          />
           <aside class="notes">
             <p>
               the browser now "Paints" the render tree to pixels on the screen
@@ -849,25 +846,30 @@
             <p>
               Even for our simple demo page, the browser requires quite a bit of
               work to render to the screen. And if either the DOM or CSSOM were
-              modified, the browser would have to repeat the entire process in
-              order to figure out which pixels would need to be re-rendered on
-              the screen.
+              modified, the browser would have to repeat some of the processes
+              in order to figure out which pixels would need to be re-rendered
+              on the screen.
             </p>
             <p>
               As you can imagine, the speed with which we can see our page on
               the screen is determined by how fast the browser can execute the
-              above steps.
+              above steps. These steps are actually called...
+            </p>
+          </aside>
+        </section>
+        <section>
+          <h2>Critical Rendering Path</h2>
+          <aside class="notes">
+            <p>the critical rendering path.</p>
+            <p>We just talked about basic HTML and CSS rendering.</p>
+            <p>
+              Optimization HTML and CSS is somewhat straightforward as we talked
+              about - keep the CSS simple, fewer HTML elements etc. Add
+              javascript into this mix and optimizing this can get complex.
             </p>
             <p>
-              Optimizing these steps helps with initial render speed and this
-              path is called the critical rendering path.
-            </p>
-            <p>
-              We did talk about a few things regarding optimization of the above
-              steps. Keep the CSS simple, fewer HTML elements etc. But there is
-              a lot more to critical rendering path optimizations that we just
-              cannot cover in this session. If anyone is interested in a session
-              on this, let me know. 🙂
+              That is probably a topic for another session. If anyone is
+              interested, let me know.
             </p>
           </aside>
         </section>
@@ -878,7 +880,19 @@
           <h2>Questions?</h2>
         </section>
         <section>
-          <a href="">LINK</a>
+          <p>
+            <a href="https://jithusnair.github.io/bytes-to-pixels/">
+              https://jithusnair.github.io/bytes-to-pixels/
+            </a>
+          </p>
+          <p>
+            <a
+              class="fragment"
+              href="https://github.com/jithusnair/bytes-to-pixels"
+            >
+              https://github.com/jithusnair/bytes-to-pixels
+            </a>
+          </p>
         </section>
         <section>
           <h2>Credits</h2>
